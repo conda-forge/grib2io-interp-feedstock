@@ -11,7 +11,8 @@ source:
 
 build:
   skip: true  # [win or py<38]
-  number: 0
+  number: 1
+  noarch: python
   script_env:
     - SP_DIR={{ PREFIX }}
     - IP_DIR={{ PREFIX }}
