@@ -10,8 +10,8 @@ source:
   sha256: 8dcf8a565b600e6963d651a852cd667e715a1740cdc4a55ad9bfc6209744b68f
 
 build:
-  skip: true  # [win or py<38]
-  number: 0
+  skip: true  # [win]
+  number: 1
   script_env:
     - SP_DIR={{ PREFIX }}
     - IP_DIR={{ PREFIX }}
