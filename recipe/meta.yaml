@@ -22,14 +22,14 @@ requirements:
     - {{ compiler('fortran') }}
     - {{ compiler('c') }}
   host:
-    - python >=3.8
+    - python
     - setuptools >=61.0,<62.1.0
     - numpy
     - pip
     - nceplibs-ip
     - nceplibs-sp
   run:
-    - python >=3.8
+    - python
     - numpy
     - nceplibs-ip
     - nceplibs-sp
