@@ -10,7 +10,7 @@ source:
   sha256: 8488f2185b0880284a8587d61a63aea33b35fb567b12fde5c00b062709464284
 
 build:
-  skip: true  # [win or py<38]
+  skip: true  # [win]
   number: 1
   noarch: python
   script_env:
@@ -23,14 +23,14 @@ requirements:
     - {{ compiler('fortran') }}
     - {{ compiler('c') }}
   host:
-    - python
+    - python >=3.8
     - setuptools >=61.0,<62.1.0
     - numpy
     - pip
     - nceplibs-ip
     - nceplibs-sp
   run:
-    - python
+    - python >=3.8
     - numpy
     - nceplibs-ip
     - nceplibs-sp
