@@ -11,7 +11,7 @@ source:
 
 build:
   skip: true  # [win]
-  number: 1
+  number: 2
   script_env:
     - SP_DIR={{ PREFIX }}
     - IP_DIR={{ PREFIX }}
@@ -23,14 +23,14 @@ requirements:
     - {{ compiler('c') }}
   host:
     - python
-    - setuptools >=61.0,<62.1.0
-    - numpy
     - pip
+    - numpy
+    - setuptools >=61.0,<62.1.0
     - nceplibs-ip
     - nceplibs-sp
   run:
     - python
-    - numpy
+    - {{ pin_compatible('numpy') }}
     - nceplibs-ip
     - nceplibs-sp
 
@@ -41,6 +41,8 @@ test:
     - pip check
   requires:
     - pip
+    - nceplibs-ip
+    - nceplibs-sp
 
 about:
   summary: Interpolation component for grib2io providing a Python interface to NCEPLIBS-ip
