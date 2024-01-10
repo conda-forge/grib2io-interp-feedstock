@@ -14,6 +14,10 @@ source:
 build:
   skip: true  # [win]
   number: 4
+    - SP_DIR={{ PREFIX }}        # [not win]
+    - IP_DIR={{ PREFIX }}        # [not win]
+    - SP_DIR={{ PREFIX }}/Library/bin        # [win]
+    - IP_DIR={{ PREFIX }}/Library/bin        # [win]
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
