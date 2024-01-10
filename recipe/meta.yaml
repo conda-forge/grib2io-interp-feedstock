@@ -14,6 +14,7 @@ source:
 build:
   skip: true  # [win]
   number: 4
+  script_env:
     - SP_DIR={{ PREFIX }}        # [not win]
     - IP_DIR={{ PREFIX }}        # [not win]
     - SP_DIR={{ PREFIX }}/Library/bin        # [win]
