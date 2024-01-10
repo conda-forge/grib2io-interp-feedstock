@@ -8,6 +8,8 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/grib2io-interp-{{ version }}.tar.gz
   sha256: 8dcf8a565b600e6963d651a852cd667e715a1740cdc4a55ad9bfc6209744b68f
+  patches:
+    - 0001-FEAT-Have-find_library-search-through-LD_LIBRARY_PAT.patch
 
 build:
   skip: true  # [win]
