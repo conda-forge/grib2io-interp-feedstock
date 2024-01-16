@@ -226,5 +226,5 @@ Feedstock Maintainers
 =====================
 
 * [@EricEngle-NOAA](https://github.com/EricEngle-NOAA/)
-* [@timcera](https://github.com/timcera/)
+* [@TimothyCera-NOAA](https://github.com/TimothyCera-NOAA/)
 
