@@ -11,7 +11,7 @@ source:
 
 build:
   skip: true  # [win]
-  number: 3
+  number: 4
   script_env:
     - SP_DIR={{ PREFIX }}
     - IP_DIR={{ PREFIX }}
@@ -19,18 +19,24 @@ build:
 
 requirements:
   build:
-    - {{ compiler('fortran') }}
     - {{ compiler('c') }}
+    - {{ compiler('fortran') }}
+    - cross-python_{{ target_platform }}  # [build_platform != target_platform]
+    - nceplibs-ip                         # [build_platform != target_platform]
+    - numpy                               # [build_platform != target_platform]
+    - pip                                 # [build_platform != target_platform]
+    - python                              # [build_platform != target_platform]
+    - setuptools >=61.0                   # [build_platform != target_platform]
   host:
-    - python
-    - pip
+    - nceplibs-ip
     - numpy
-    - setuptools >=61.0
-    - nceplibs-ip
-  run:
+    - pip
     - python
-    - {{ pin_compatible('numpy') }}
+    - setuptools >=61.0
+  run:
     - nceplibs-ip
+    - {{ pin_compatible('numpy') }}
+    - python
 
 test:
   imports:
@@ -49,5 +55,5 @@ about:
 
 extra:
   recipe-maintainers:
-    - timcera
+    - TimothyCera-NOAA
     - EricEngle-NOAA
