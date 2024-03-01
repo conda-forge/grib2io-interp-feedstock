@@ -1,5 +1,5 @@
 {% set name = "grib2io-interp" %}
-{% set version = "1.0.3" %}
+{% set version = "1.1.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/grib2io-interp-{{ version }}.tar.gz
-  sha256: 8dcf8a565b600e6963d651a852cd667e715a1740cdc4a55ad9bfc6209744b68f
+  sha256: 78002327649343e80865e9447eea93539d72a050240946d4f60350c790f30391
   patches:
     - 0001-FEAT-Have-find_library-search-through-LD_LIBRARY_PAT.patch
 
 build:
-  number: 4
+  number: 1
   script_env:
     - SP_DIR={{ PREFIX }}              # [not win]
     - IP_DIR={{ PREFIX }}              # [not win]
