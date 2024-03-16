@@ -1,0 +1,110 @@
+From 210b7286f3bbc5ff9c9a78496634e919d8a76d66 Mon Sep 17 00:00:00 2001
+From: Timothy Cera <timothy.cera@noaa.gov>
+Date: Fri, 1 Mar 2024 14:19:21 -0500
+Subject: [PATCH] Windows support in setup.py.
+
+---
+ setup.py | 61 +++++++++++++++++++++++++++-----------------------------
+ 1 file changed, 29 insertions(+), 32 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index e6a5699..2c98876 100644
+--- a/setup.py
++++ b/setup.py
+@@ -18,54 +18,51 @@ libraries = ['ip_4']
+ # find_library.
+ # ----------------------------------------------------------------------------------------
+ def find_library(name, dirs=None):
+-    _libext_by_platform = {"linux": ".so", "darwin": ".dylib"}
+     out = []
+ 
+-    # According to the ctypes documentation Mac and Windows ctypes_find_library
+-    # returns the full path.
+-    #
+-    # IMPORTANT: The following does not work at this time (Jan. 2024) for macOS on
+-    # Apple Silicon.
+-    if (os.name, sys.platform) != ("posix", "linux"):
+-        if (sys.platform, platform.machine()) == ("darwin", "arm64"):
+-            pass
+-        else:
+-            out.append(ctypes_find_library(name))
++    if ((os.name, sys.platform) == ("posix", "linux") or
++            (sys.platform, platform.machine()) == ("darwin", "arm64")):
++        # For Linux and macOS (Apple Silicon), we have to search ourselves.
++        _libext_by_platform = {"linux": ".so", "darwin": ".dylib"}
++        libext = _libext_by_platform[sys.platform]
++        if dirs is None:
++            if os.environ.get("CONDA_PREFIX"):
++                dirs = [os.environ["CONDA_PREFIX"]]
++            else:
++                dirs = ["/usr/local", "/sw", "/opt", "/opt/local", "/opt/homebrew", "/usr"]
++        if os.environ.get("LD_LIBRARY_PATH"):
++            dirs = dirs + os.environ.get("LD_LIBRARY_PATH").split(":")
+ 
+-    # For Linux and macOS (Apple Silicon), we have to search ourselves.
+-    libext = _libext_by_platform[sys.platform]
+-    if dirs is None:
+-        if os.environ.get("CONDA_PREFIX"):
+-            dirs = [os.environ["CONDA_PREFIX"]]
+-        else:
+-            dirs = ["/usr/local", "/sw", "/opt", "/opt/local", "/opt/homebrew", "/usr"]
+-    if os.environ.get("LD_LIBRARY_PATH"):
+-        dirs = dirs + os.environ.get("LD_LIBRARY_PATH").split(":")
+-
+-    out = []
+-    for d in dirs:
+-        libs = Path(d).rglob(f"lib*{name}{libext}")
+-        out.extend(libs)
+-    if not out:
+-        raise ValueError(f"""
++        out = []
++        for d in dirs:
++            libs = Path(d).rglob(f"lib*{name}{libext}")
++            out.extend(libs)
++        if not out:
++            raise ValueError(f"""
+ 
+ The library "lib{name}{libext}" could not be found in any of the following
+ directories:
+ {dirs}
+ 
+ """)
++    else:
++        # According to the ctypes documentation Mac and Windows
++        # ctypes_find_library returns the full path.  However, doesn't work for
++        # macOS (Apple Silicon) (as of 2024-01) which is why it is handled
++        # above along with Linux.
++        out.append(ctypes_find_library(name))
+     return out[0].absolute().resolve().as_posix()
+ 
+-# ---------------------------------------------------------------------------------------- 
++# ----------------------------------------------------------------------------------------
+ # Read setup.cfg
+ # ----------------------------------------------------------------------------------------
+ setup_cfg = 'setup.cfg'
+ config = configparser.ConfigParser()
+ config.read(setup_cfg)
+ 
+-# ---------------------------------------------------------------------------------------- 
++# ----------------------------------------------------------------------------------------
+ # Get NCEPLIBS-ip library info.
+-# ---------------------------------------------------------------------------------------- 
++# ----------------------------------------------------------------------------------------
+ if os.environ.get('IP_DIR'):
+     ip_dir = os.environ.get('IP_DIR')
+     ip_libdir = os.path.dirname(find_library('ip_4', dirs=[ip_dir]))
+@@ -85,9 +82,9 @@ libdirs = list(set(libdirs))
+ incdirs = list(set(incdirs))
+ incdirs.append(numpy.get_include())
+ 
+-# ---------------------------------------------------------------------------------------- 
++# ----------------------------------------------------------------------------------------
+ # Define interpolation NumPy extension module.
+-# ---------------------------------------------------------------------------------------- 
++# ----------------------------------------------------------------------------------------
+ interpext = Extension(name = 'grib2io_interp.interpolate',
+                       sources = ['src/interpolate/interpolate.pyf','src/interpolate/interpolate.f90'],
+                       extra_f77_compile_args = ['-O3','-fopenmp'],
+-- 
+2.34.1
+
