@@ -1,5 +1,5 @@
 {% set name = "grib2io-interp" %}
-{% set version = "1.2.1" %}
+{% set version = "1.2.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/grib2io-interp-{{ version }}.tar.gz
-  sha256: 1a4f0db4033f07e194b9c8c03589e60badd7b96fccc5356a1df3ae07cf47c01e
+  sha256: 70e19d71a5208a2ea8692f3cc1c4cadeeaec4375a1dd91af15dc88e2c23faf3e
 
 build:
   skip: true  # [win]
