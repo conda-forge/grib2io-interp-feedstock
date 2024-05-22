@@ -11,7 +11,7 @@ source:
 
 build:
   skip: true  # [win]
-  number: 0
+  number: 1
   script_env:
     - SP_DIR={{ PREFIX }}
     - IP_DIR={{ PREFIX }}
@@ -20,6 +20,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('fortran') }}
     - cross-python_{{ target_platform }}  # [build_platform != target_platform]
     - nceplibs-ip                         # [build_platform != target_platform]
@@ -35,7 +36,6 @@ requirements:
     - setuptools >=61.0
   run:
     - nceplibs-ip
-    - {{ pin_compatible('numpy') }}
     - python
 
 test:
