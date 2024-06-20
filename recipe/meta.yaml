@@ -10,17 +10,21 @@ source:
   sha256: 70e19d71a5208a2ea8692f3cc1c4cadeeaec4375a1dd91af15dc88e2c23faf3e
 
 build:
-  skip: true  # [win]
-  number: 0
+  number: 1
   script_env:
-    - SP_DIR={{ PREFIX }}
-    - IP_DIR={{ PREFIX }}
+    - SP_DIR={{ PREFIX }}              # [not win]
+    - IP_DIR={{ PREFIX }}              # [not win]
+    - SP_DIR={{ PREFIX }}/Library/bin  # [win]
+    - IP_DIR={{ PREFIX }}/Library/bin  # [win]
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ compiler('fortran') }}
+    - {{ compiler('c') }}                 # [not win]
+    - {{ compiler('fortran') }}           # [not win]
+    - m2w64-gcc                           # [win]
+    - m2w64-gcc-fortran                   # [win]
+    - ninja                               # [win]
     - cross-python_{{ target_platform }}  # [build_platform != target_platform]
     - nceplibs-ip                         # [build_platform != target_platform]
     - numpy                               # [build_platform != target_platform]
@@ -34,6 +38,8 @@ requirements:
     - python
     - setuptools >=61.0
   run:
+    - m2w64-gcc-fortran  # [win]
+    - m2w64-gcc-libs     # [win]
     - nceplibs-ip
     - {{ pin_compatible('numpy') }}
     - python
