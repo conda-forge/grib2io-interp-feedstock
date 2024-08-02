@@ -10,7 +10,7 @@ source:
   sha256: 70e19d71a5208a2ea8692f3cc1c4cadeeaec4375a1dd91af15dc88e2c23faf3e
 
 build:
-  skip: true  # [win and py<312]
+  skip: true  # [win or py>=312]
   number: 1
   script_env:
     - IP_DIR={{ PREFIX }}
