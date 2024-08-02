@@ -18,14 +18,12 @@ fortran_compiler:
 - gfortran
 fortran_compiler_version:
 - '12'
-numpy:
-- '1.23'
 pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.11.* *_cpython
+- 3.8.* *_cpython
 target_platform:
 - linux-ppc64le
 zip_keys:
@@ -33,5 +31,3 @@ zip_keys:
   - fortran_compiler_version
 - - c_stdlib_version
   - cdt_name
-- - python
-  - numpy

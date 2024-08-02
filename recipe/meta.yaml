@@ -10,10 +10,9 @@ source:
   sha256: 70e19d71a5208a2ea8692f3cc1c4cadeeaec4375a1dd91af15dc88e2c23faf3e
 
 build:
-  skip: true  # [win]
-  number: 0
+  skip: true  # [win or py>=312]
+  number: 1
   script_env:
-    - SP_DIR={{ PREFIX }}
     - IP_DIR={{ PREFIX }}
   script: {{ PYTHON }} -m pip install . -vv
 
@@ -21,20 +20,22 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('fortran') }}
+    - {{ stdlib('c') }}                   # [not win]
     - cross-python_{{ target_platform }}  # [build_platform != target_platform]
-    - nceplibs-ip                         # [build_platform != target_platform]
-    - numpy                               # [build_platform != target_platform]
+    - nceplibs-ip >=5.1.0                 # [build_platform != target_platform]
+    - numpy <2.0.0                        # [build_platform != target_platform]
     - pip                                 # [build_platform != target_platform]
     - python                              # [build_platform != target_platform]
     - setuptools >=61.0                   # [build_platform != target_platform]
   host:
-    - nceplibs-ip
-    - numpy
+    - nceplibs-ip >=5.1.0
+    - numpy <2.0.0
     - pip
     - python
     - setuptools >=61.0
   run:
-    - nceplibs-ip
+    - grib2io
+    - nceplibs-ip >=5.1.0
     - {{ pin_compatible('numpy') }}
     - python
 
@@ -45,7 +46,7 @@ test:
     - pip check
   requires:
     - pip
-    - nceplibs-ip
+    - nceplibs-ip >=5.1.0
 
 about:
   summary: Interpolation component for grib2io providing a Python interface to NCEPLIBS-ip
