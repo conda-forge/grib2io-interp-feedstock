@@ -6,12 +6,12 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/grib2io_interp-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/grib2io_interp-{{ version }}.tar.gz
   sha256: 922cf48f940d13cc083408ed429a8d735431c133b379660e7d4450ca30e5ae63
 
 build:
   skip: true  # [win or py>=312]
-  number: 0
+  number: 1
   script_env:
     - IP_DIR={{ PREFIX }}
   script: {{ PYTHON }} -m pip install . -vv
