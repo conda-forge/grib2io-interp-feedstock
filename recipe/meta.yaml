@@ -11,7 +11,7 @@ source:
 
 build:
   skip: true  # [win or py>=312]
-  number: 0
+  number: 1
   script_env:
     - IP_DIR={{ PREFIX }}
   script: {{ PYTHON }} -m pip install . -vv
@@ -34,7 +34,7 @@ requirements:
     - python
     - setuptools >=61.0
   run:
-    - grib2io
+    - grib2io <=2.4.0
     - nceplibs-ip >=5.1.0
     - {{ pin_compatible('numpy') }}
     - python
